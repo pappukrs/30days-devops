@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Git
+.git/
+.gitignore
+
+# Environment variables
+.env
+
+# Docker artifacts
+Dockerfile
+.dockerignore
+
+# OS/Editor specific
+.DS_Store
+.vscode/
+
+# Documentation
+Readme.md
