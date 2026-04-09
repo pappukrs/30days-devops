@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-code
+data:
+  index.js: |
+    const express = require("express");
+    const app = express();
+
+    // Debugging middleware: log all requests
+    app.use((req, res, next) => {
+        console.log(`Received request: ${req.method} ${req.url}`);
+        next();
+    });
+
+    app.get("/", (req, res) => {
+        res.send("Backend API is running (Day 7 Lite)!");
+    });
+
+    // Flexible health check
+    app.get(["/health", "/api/health"], (req, res) => {
+        res.json({ 
+            status: "UP", 
+            database: "CONNECTED (Simulated)",
+            info: "This is running via a ConfigMap mount",
+            path_received: req.url
+        });
+    });
+
+    // Catch-all for debugging
+    app.use((req, res) => {
+        console.log(`404 for path: ${req.url}`);
+        res.status(404).send(`Backend 404. You requested: ${req.url}`);
+    });
+
+    app.listen(3000, () => {
+        console.log("Server started on port 3000 (Diagnostics V2)");
+    });

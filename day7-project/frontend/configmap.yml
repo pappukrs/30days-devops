@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-html
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Video Meeting App - Lite</title>
+        <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+            .container { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 2rem; border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); border: 1px solid rgba(255, 255, 255, 0.18); text-align: center; }
+            h1 { margin-bottom: 1rem; }
+            #status { margin-top: 1.5rem; padding: 10px; border-radius: 10px; background: rgba(0, 0, 0, 0.2); }
+            .btn { background: #4CAF50; border: none; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 8px; transition: 0.3s; }
+            .btn:hover { background: #45a049; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🎥 Video Meeting App (Lite)</h1>
+            <p>Welcome to your Day 7 Mini Project!</p>
+            <button class="btn" onclick="checkHealth()">Check Backend Health</button>
+            <div id="status">Waiting for input...</div>
+        </div>
+
+        <script>
+            async function checkHealth() {
+                const statusDiv = document.getElementById('status');
+                statusDiv.innerText = 'Checking...';
+                try {
+                    const response = await fetch('/api/health');
+                    const data = await response.json();
+                    statusDiv.innerText = `Backend Status: ${data.status} | DB: ${data.database}`;
+                    statusDiv.style.color = data.status === 'UP' ? '#a4ffaf' : '#ffafaf';
+                } catch (error) {
+                    statusDiv.innerText = 'Error: Could not reach backend (is /api routed correctly?)';
+                    statusDiv.style.color = '#ffafaf';
+                }
+            }
+        </script>
+    </body>
+    </html>
