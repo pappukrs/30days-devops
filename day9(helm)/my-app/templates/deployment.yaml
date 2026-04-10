@@ -1,0 +1,5 @@
+replicas: {{ .Values.replicaCount }}
+
+containers:
+  - name: app
+    image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
